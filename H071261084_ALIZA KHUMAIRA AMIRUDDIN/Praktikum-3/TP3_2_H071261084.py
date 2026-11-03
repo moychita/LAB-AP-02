@@ -28,8 +28,3 @@ for baris in range(1, baris + 1):
          continue
       print(f"Baris {baris} - Kursi {kursi}")
    print()
-
-    
-      
-   
-    
