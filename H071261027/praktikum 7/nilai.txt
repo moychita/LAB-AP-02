@@ -1,0 +1,4 @@
+andi, 85
+randi, 60
+nadi, 70
+gus, 40

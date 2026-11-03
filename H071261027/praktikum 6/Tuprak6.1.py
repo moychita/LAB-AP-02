@@ -1,0 +1,155 @@
+
+def tambah_buku(inventaris, judul, penulis, harga, stok):
+    buku = {
+        "judul": judul,
+        "penulis": penulis,
+        "harga": harga,
+        "stok": stok
+    }
+
+    inventaris.append(buku)
+    print(f"Buku '{judul}' berhasil ditambahkan!")
+
+
+def cari_buku(inventaris, kata_kunci):
+    hasil = []
+
+    for buku in inventaris:
+        if kata_kunci.lower() in buku["judul"].lower():
+            hasil.append(buku)
+
+    if len(hasil) > 0:
+        print(f"Ditemukan {len(hasil)} buku:")
+
+        for i, buku in enumerate(hasil, start=1):
+            print(
+                f"  {i}. {buku['judul']} - {buku['penulis']} "
+                f"| Rp{buku['harga']} | Stok: {buku['stok']}"
+            )
+    else:
+        print("Buku tidak ditemukan.")
+
+
+def update_stok(inventaris, judul, jumlah):
+    for buku in inventaris:
+        if buku["judul"].lower() == judul.lower():
+            stok_baru = buku["stok"] + jumlah
+
+            if stok_baru < 0:
+                print("Gagal! Stok tidak boleh negatif.")
+            else:
+                buku["stok"] = stok_baru
+
+                if jumlah > 0:
+                    print(
+                        f"Stok '{buku['judul']}' bertambah {jumlah}. "
+                        f"Stok sekarang: {stok_baru}"
+                    )
+                elif jumlah < 0:
+                    print(
+                        f"Stok '{buku['judul']}' berkurang {-jumlah}. "
+                        f"Stok sekarang: {stok_baru}"
+                    )
+                else:
+                    print(
+                        f"Tidak ada perubahan stok. "
+                        f"Stok sekarang: {stok_baru}"
+                    )
+            return
+
+    print(f"Error! Buku '{judul}' tidak ditemukan.")
+
+
+def ringkasan_inventaris(inventaris):
+    print("=========================================")
+    print("RINGKASAN INVENTARIS BOOKNEST")
+    print("=========================================")
+
+    jumlah_jenis = len(inventaris)
+    total_stok = 0
+    total_aset = 0
+
+    for buku in inventaris:
+        total_stok += buku["stok"]
+        total_aset += buku["harga"] * buku["stok"]
+
+    print(f"Jumlah jenis buku: {jumlah_jenis}")
+    print(f"Total seluruh stok: {total_stok}")
+    print(f"Total nilai aset: Rp{total_aset}")
+
+    if len(inventaris) > 0:
+        buku_termahal = inventaris[0]
+
+        for buku in inventaris:
+            if buku["harga"] > buku_termahal["harga"]:
+                buku_termahal = buku
+
+        print(
+            f"Buku termahal: {buku_termahal['judul']} "
+            f"(Rp{buku_termahal['harga']})"
+        )
+    else:
+        print("Buku termahal: Belum ada buku")
+
+    print("=========================================")
+
+
+
+inventaris = []
+
+while True:
+    print("\n========================================")
+    print("  SISTEM INVENTARIS TOKO BUKU BOOKNEST")
+    print("========================================")
+    print("Menu:")
+    print("1. Tambah Buku")
+    print("2. Cari Buku")
+    print("3. Update Stok")
+    print("4. Ringkasan Inventaris")
+    print("5. Keluar")
+
+    pilihan = input("Pilih menu (1-5): ")
+
+    if pilihan == "1":
+        judul = input("Judul buku: ")
+        penulis = input("Penulis: ")
+
+        try:
+            harga = float(input("Harga: "))
+            stok = int(input("Stok awal: "))
+
+            if harga < 0 or stok < 0:
+                print("Gagal! Harga dan stok tidak boleh negatif.")
+            else:
+                tambah_buku(
+                    inventaris, judul, penulis, harga, stok
+                )
+
+        except ValueError:
+            print("Error! Harga harus berupa angka dan stok harus berupa bilangan bulat.")
+
+    elif pilihan == "2":
+        kata_kunci = input("Masukkan kata kunci judul: ")
+        cari_buku(inventaris, kata_kunci)
+
+    elif pilihan == "3":
+        judul = input("Judul buku yang ingin diupdate: ")
+
+        try:
+            jumlah = int(
+                input("Jumlah perubahan (positif=tambah, negatif=kurang): ")
+            )
+            update_stok(inventaris, judul, jumlah)
+
+        except ValueError:
+            print("Error! Jumlah perubahan harus berupa bilangan bulat.")
+
+    elif pilihan == "4":
+        ringkasan_inventaris(inventaris)
+
+    elif pilihan == "5":
+        print("Terima kasih telah menggunakan BookNest!")
+        break
+
+    else:
+        print("Pilihan tidak valid! Silakan pilih menu 1-5.")
