@@ -25,14 +25,14 @@ while True:
         if nama_barang == "":
             print(f"Total belanja: {total_belanja}")
             break
-        harga_barang = int(input("Harga barang: "))
-        if harga_barang < 0:
+        harga_barang = int(input("Harga_barang: "))
+        if harga_barang <=0:
             raise ValueError("Input yang anda masukkan tidak valid")
-        jumlah_barang = int(input("Jumlah barang: "))
+        jumlah_barang = int(input("Jumlah_barang: "))
         if member == 1:
             subtotal = sistem(harga_barang, jumlah_barang, adalah_member=True)
         elif member == 2:
-            subtotal = sistem(harga_barang, jumlah_barang,)
+            subtotal = sistem(harga_barang, jumlah_barang , adalah_member=False)
         total_belanja += subtotal
         print(f"Subtotal {nama_barang}: {subtotal}")
     except:
